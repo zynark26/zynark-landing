@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zynark — Books by M. F. Daif</title>
+  <meta name="description" content="Zynark — the official store for books by M. F. Daif. Explore new releases, bestsellers, and exclusive author editions." />
+  <meta name="theme-color" content="#111827" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23000000'/%3E%3Ctext x='50' y='58' font-size='44' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' fill='%23ffffff'%3EZ%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg: #0b0d12;      /* near-black */
+      --bg-2:#121521;     /* deeper panel */
+      --text:#e5e7eb;     /* gray-200 */
+      --muted:#9ca3af;    /* gray-400 */
+      --brand:#22d3ee;    /* cyan-400 accent */
+      --brand-2:#a78bfa;  /* violet-400 accent */
+      --card:#0f1320;     /* card surface */
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px var(--border);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text); background: radial-gradient(1200px 700px at 10% -10%, rgba(34,211,238,.08), transparent 50%),
+                         radial-gradient(1000px 600px at 90% 10%, rgba(167,139,250,.06), transparent 55%),
+                         var(--bg);
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1200px; margin-inline:auto; padding: 0 20px}
+    .btn{
+      display:inline-flex; align-items:center; gap:.6rem; padding:.9rem 1.2rem; border-radius:999px;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#0b0d12; font-weight:700; letter-spacing:.2px;
+      border:none; cursor:pointer; box-shadow: 0 10px 24px rgba(34,211,238,.25);
+    }
+    .btn.secondary{
+      background:transparent; color:var(--text); border:1px solid var(--border); box-shadow:none;
+    }
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(12px);
+      background:linear-gradient(180deg, rgba(11,13,18,.75), rgba(11,13,18,.35));
+      border-bottom:1px solid var(--border);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 0}
+    .brand{display:flex; align-items:center; gap:.8rem}
+    .logo{width:40px; height:40px; border-radius:10px; display:grid; place-items:center; font-weight:900; letter-spacing:.5px;
+      background:linear-gradient(135deg,rgba(34,211,238,.18), rgba(167,139,250,.18)); color:white; box-shadow:var(--shadow)}
+    .brand h1{font-size:1.15rem; margin:0}
+    .brand small{display:block; color:var(--muted); font-weight:500; letter-spacing:.3px; margin-top:-2px}
+    .links{display:flex; gap:1rem; align-items:center}
+    .links a{padding:.6rem .8rem; border-radius:10px; border:1px solid transparent}
+    .links a:hover{border-color:var(--border); background:rgba(255,255,255,.03)}
+
+    .hero{position:relative; padding: 72px 0 40px}
+    .hero-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:28px}
+    .hero h2{font-size:clamp(2rem, 4vw, 3rem); line-height:1.1; margin:0 0 16px}
+    .eyebrow{display:inline-block; padding:.35rem .7rem; border:1px solid var(--border); color:var(--muted); border-radius:999px; font-size:.85rem; margin-bottom:12px}
+    .hero p{color:#c7cad1; font-size:1.07rem; max-width:60ch}
+    .cta{display:flex; gap:.8rem; flex-wrap:wrap; margin-top:20px}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
+    .hero-card .row{display:flex; align-items:center; gap:14px}
+    .book-spine{width:38px; height:56px; border-radius:8px; background:linear-gradient(180deg, #1f2937, #0f172a); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06)}
+    .hero-card h3{margin:0; font-size:1rem}
+    .hero-card p{margin:.2rem 0 0; color:var(--muted); font-size:.9rem}
+
+    .section{padding:56px 0}
+
+    .grid{display:grid; gap:22px}
+    .grid.cols-3{grid-template-columns: repeat(3, minmax(0,1fr))}
+    .grid.cols-4{grid-template-columns: repeat(4, minmax(0,1fr))}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow)}
+    .card .thumb{aspect-ratio: 3/4; background:radial-gradient(60% 50% at 50% 30%, rgba(34,211,238,.2), transparent), linear-gradient(180deg, #0b1020, #0a0e16); display:block}
+    .book-info{padding:16px}
+    .book-title{font-weight:800; margin:0 0 6px; font-size:1.05rem}
+    .book-meta{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:.9rem}
+    .price{margin-left:auto; padding:.2rem .55rem; border:1px solid var(--border); border-radius:8px; color:#d1d5db}
+    .card .actions{padding:16px; display:flex; gap:8px}
+
+    .subheading{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    .subheading h3{margin:0; font-size:1.35rem}
+    .subheading a{color:var(--muted)}
+
+    .author{display:grid; grid-template-columns: .9fr 1.1fr; gap:26px; align-items:center}
+    .author .portrait{aspect-ratio: 4/3; border-radius:var(--radius); border:1px solid var(--border); background:
+      linear-gradient(135deg, rgba(34,211,238,.25), rgba(167,139,250,.22)),
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="%230b1020"/><stop offset="100%" stop-color="%230a0e16"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="24" fill="%23ffffff66">Author Portrait Placeholder</text></svg>') center/cover no-repeat;
+      box-shadow:var(--shadow)
+    }
+    .author h3{margin:0 0 8px; font-size:1.6rem}
+    .author p{color:#c7cad1}
+
+    .newsletter{display:grid; grid-template-columns: 1.1fr .9fr; gap:22px}
+    .panel{padding:22px; border:1px solid var(--border); border-radius:var(--radius); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); box-shadow:var(--shadow)}
+    .input-row{display:flex; gap:10px; margin-top:12px}
+    input[type="email"]{flex:1; padding:14px 16px; border-radius:12px; border:1px solid var(--border); background:#0d1220; color:var(--text)}
+
+    .stats{display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:18px}
+    .stat{padding:18px; text-align:center; border:1px solid var(--border); border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02))}
+    .stat h4{margin:0; font-size:1.4rem}
+    .stat p{margin:.3rem 0 0; color:var(--muted)}
+
+    .testimonials .card{padding:18px}
+    .quote{font-style:italic; color:#d1d5db}
+
+    footer{border-top:1px solid var(--border); padding:34px 0; color:var(--muted)}
+    .footer-grid{display:grid; grid-template-columns: 1fr auto; align-items:center}
+    .footer-links{display:flex; gap:16px; flex-wrap:wrap}
+
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .newsletter{grid-template-columns:1fr}
+      .author{grid-template-columns:1fr}
+      .grid.cols-4{grid-template-columns: repeat(2, minmax(0,1fr))}
+      .grid.cols-3{grid-template-columns: repeat(2, minmax(0,1fr))}
+    }
+    @media (max-width: 640px){
+      .grid.cols-4, .grid.cols-3{grid-template-columns: 1fr}
+      .links{display:none}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">Z</div>
+        <div>
+          <h1>Zynark</h1>
+          <small>Books by M. F. Daif</small>
+        </div>
+      </div>
+      <nav class="links" aria-label="Primary">
+        <a href="#new">New</a>
+        <a href="#best">Bestsellers</a>
+        <a href="#author">Author</a>
+        <a href="#newsletter">Newsletter</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Official Store · Zynark</span>
+        <h2>Timely, bold, and unforgettable. <span style="background:linear-gradient(135deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent">Books by M. F. Daif.</span></h2>
+        <p>Explore original works spanning self‑help, culture, and modern life. Grab exclusive editions, early releases, and signed copies you won’t find anywhere else.</p>
+        <div class="cta">
+          <a class="btn" href="#new">Shop New Releases</a>
+          <a class="btn secondary" href="#best">Browse Bestsellers</a>
+        </div>
+        <div style="height:14px"></div>
+        <div class="hero-card">
+          <div class="row">
+            <div class="book-spine" aria-hidden="true"></div>
+            <div>
+              <h3>Latest Drop: <span style="color:#e9efff">Signature Edition</span></h3>
+              <p>Limited first run with premium matte cover and exclusive foreword.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" aria-label="Featured book mockup">
+        <div class="thumb"></div>
+        <div class="book-info">
+          <p class="book-title">Your Co‑Workers Are Not Your Friends</p>
+          <div class="book-meta">
+            <span>Paperback • 180 pp</span>
+            <span class="price">$14.99</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn" href="#">Add to Cart</a>
+          <a class="btn secondary" href="#">Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Releases -->
+  <section id="new" class="section">
+    <div class="container">
+      <div class="subheading">
+        <h3>New Releases</h3>
+        <a href="#">View all →</a>
+      </div>
+      <div class="grid cols-4">
+        <!-- Book Card Template -->
+        <article class="card">
+          <a class="thumb" href="#" aria-label="Book cover"></a>
+          <div class="book-info">
+            <h4 class="book-title">I Will</h4>
+            <div class="book-meta">
+              <span>Hardcover</span>
+              <span class="price">$19.99</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Preview</a>
+          </div>
+        </article>
+        <article class="card">
+          <a class="thumb" href="#"></a>
+          <div class="book-info">
+            <h4 class="book-title">Go Unsimp Yourself</h4>
+            <div class="book-meta">
+              <span>Paperback</span>
+              <span class="price">$12.99</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Preview</a>
+          </div>
+        </article>
+        <article class="card">
+          <a class="thumb" href="#"></a>
+          <div class="book-info">
+            <h4 class="book-title">The Bias Within</h4>
+            <div class="book-meta">
+              <span>eBook</span>
+              <span class="price">$6.99</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Preview</a>
+          </div>
+        </article>
+        <article class="card">
+          <a class="thumb" href="#"></a>
+          <div class="book-info">
+            <h4 class="book-title">Barking Without Biting</h4>
+            <div class="book-meta">
+              <span>Paperback</span>
+              <span class="price">$13.99</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Preview</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestsellers -->
+  <section id="best" class="section" style="padding-top:0">
+    <div class="container">
+      <div class="subheading">
+        <h3>Fan Favorites</h3>
+        <a href="#">View all →</a>
+      </div>
+      <div class="grid cols-3">
+        <article class="card">
+          <a class="thumb" href="#"></a>
+          <div class="book-info">
+            <h4 class="book-title">Purity, Value, and the Meaning of Marriage</h4>
+            <div class="book-meta">
+              <span>Paperback</span>
+              <span class="price">$14.49</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Details</a>
+          </div>
+        </article>
+        <article class="card">
+          <a class="thumb" href="#"></a>
+          <div class="book-info">
+            <h4 class="book-title">The Modern Battlefield: Money, Media, and Might</h4>
+            <div class="book-meta">
+              <span>Hardcover</span>
+              <span class="price">$21.99</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Details</a>
+          </div>
+        </article>
+        <article class="card">
+          <a class="thumb" href="#"></a>
+          <div class="book-info">
+            <h4 class="book-title">Pig Butchering Scams</h4>
+            <div class="book-meta">
+              <span>eBook</span>
+              <span class="price">$7.99</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#">Add to Cart</a>
+            <a class="btn secondary" href="#">Details</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About the Author -->
+  <section id="author" class="section">
+    <div class="container author">
+      <div class="portrait" role="img" aria-label="Portrait of M. F. Daif placeholder"></div>
+      <div>
+        <h3>About the Author — M. F. Daif</h3>
+        <p>Writing at the intersection of discipline, culture, and everyday strategy, M. F. Daif creates concise, high‑impact reads designed for action. Each title balances sharp insight with practical steps you can apply the same day.</p>
+        <div class="cta">
+          <a class="btn" href="#new">Shop Books</a>
+          <a class="btn secondary" href="#contact">Contact</a>
+        </div>
+        <div style="margin-top:18px" class="stats">
+          <div class="stat"><h4>20k+</h4><p>Readers Reached</p></div>
+          <div class="stat"><h4>10+</h4><p>Published Works</p></div>
+          <div class="stat"><h4>4.7★</h4><p>Average Rating</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter & Perks -->
+  <section id="newsletter" class="section">
+    <div class="container newsletter">
+      <div class="panel">
+        <h3>Get early access & launch discounts</h3>
+        <p>Join the Zynark list to receive first‑look chapters, launch‑week pricing, and signed edition drops.</p>
+        <form class="input-row" onsubmit="event.preventDefault(); alert('Thanks for subscribing to Zynark updates!');">
+          <label for="email" class="visually-hidden">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required />
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+      </div>
+      <div class="panel">
+        <h3>Why shop Zynark?</h3>
+        <ul style="margin:8px 0 0 18px; color:#c7cad1">
+          <li>Exclusive editions you can’t get elsewhere</li>
+          <li>Direct support for the author</li>
+          <li>Fast updates on new releases</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section testimonials">
+    <div class="container">
+      <div class="subheading">
+        <h3>What readers say</h3>
+        <a href="#">Read more →</a>
+      </div>
+      <div class="grid cols-3">
+        <article class="card">
+          <p class="quote">“Concise, punchy, and actually useful. I finished it in one sitting and started applying the ideas the next day.”</p>
+          <p class="book-meta">— Verified Reader</p>
+        </article>
+        <article class="card">
+          <p class="quote">“No fluff—just clear frameworks and examples that stick.”</p>
+          <p class="book-meta">— Business Owner</p>
+        </article>
+        <article class="card">
+          <p class="quote">“Smart, provocative takes on modern life. Highly recommended.”</p>
+          <p class="book-meta">— Podcaster</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container footer-grid">
+      <div>
+        © <span id="year"></span> Zynark · Books by M. F. Daif. All rights reserved.
+      </div>
+      <div class="footer-links">
+        <a href="#">Shipping & Returns</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:contact@zynark.store">contact@zynark.store</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
